@@ -17,17 +17,17 @@ class Category:
     description: str
     products: list
 
-    category_count: list[type] = []
+    category_count: list[str] = []
     product_count = 0
 
     def __init__(self, name: str, description: str, products: list):
         """"""
-        self.products = products
         self.name = name
         self.description = description
+        self.products = products
 
-        self.category_count += products
-        self.product_count += 1
+        self.category_count += [name]
+        self.product_count += len(products)
 
 
 if __name__ == "__main__":

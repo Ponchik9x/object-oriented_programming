@@ -34,5 +34,5 @@ def test_class_init_category(category_1: Category, product_1: Product) -> None:
     )
     assert category_1.products == [product_1]
 
-    assert category_1.category_count == [product_1]
-    assert category_1.product_count == 1
+    assert category_1.category_count == ["Телевизоры"]
+    assert category_1.product_count == len(category_1.products)
