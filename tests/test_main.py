@@ -64,7 +64,7 @@ def test_class_init_category(category_1: Category, product_1: Product) -> None:
         category_1.description
         == "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником"
     )
-    assert category_1.products == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+    assert category_1.products == "Телевизоры, количество продуктов: 5 шт."
     assert category_1.category_count == ["Телевизоры"]
     assert category_1.product_count == 1
 
@@ -126,4 +126,4 @@ def test_for_class_product__add__(product_1, product_2):
 
 
 def test_for_class_category__str__(category_1):
-    assert str(category_1) == "Телевизоры, количество продуктов: 1"
+    assert str(category_1) == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
