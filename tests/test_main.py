@@ -9,6 +9,11 @@ def product_1() -> Product:
 
 
 @pytest.fixture
+def product_2() -> Product:
+    return Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+
+
+@pytest.fixture
 def category_1(product_1: Product) -> Category:
     return Category(
         "Телевизоры",
@@ -109,3 +114,16 @@ def test_new_product(cls_new_product: dict):
     assert new_product_test.description == "256GB, Серый цвет, 200MP камера"
     assert new_product_test.price == 180000.0
     assert new_product_test.quantity == 5
+
+
+def test_for_class_product__str__(product_1):
+    assert str(product_1) == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+
+
+def test_for_class_product__add__(product_1, product_2):
+    add_prod = product_1 + product_2
+    assert add_prod == 2580000.0
+
+
+def test_for_class_category__str__(category_1):
+    assert str(category_1) == "Телевизоры, количество продуктов: 1"
