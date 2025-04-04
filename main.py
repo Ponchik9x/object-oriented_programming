@@ -52,16 +52,27 @@ class Category:
     product_count = 0
 
     def __init__(self, name: str, description: str, products: list):
-        """"""
+        """ """
         self.name = name
         self.description = description
         self.__products = products
 
         self.category_count += [name]
-        self.product_count += len(products)
+        for v in products:
+            self.product_count += 1
 
     def __str__(self):
-        return f"{self.name}, количество продуктов: {self.product_count}"
+        result = []
+        for i in self.__products:
+            result.append(f"{i.name}, {i.price} руб. Остаток: {i.quantity} шт.")
+        return "\n".join(result)
+
+
+
+        # count = 0
+        # for v in self.__products:
+        #     self.product_count += 1
+        # return f"{self.name}, количество продуктов: {self.product_count}"
 
     def add_product(self, value: list | Product):
         self.__products.append(value)
@@ -77,13 +88,13 @@ class Category:
 
     @products.getter
     def products(self):
-        result = []
+        total_number = 0
         for i in self.__products:
-            result.append(f"{i.name}, {i.price} руб. Остаток: {i.quantity} шт.")
-        return "\n".join(result)
+            total_number += i.quantity
+        return f"{self.name}, количество продуктов: {total_number} шт."
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
@@ -95,7 +106,7 @@ if __name__ == "__main__":
     category1 = Category(
         "Смартфоны",
         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-        [product1, product2, product3],
+        [product1, product2, product3]
     )
 
     print(str(category1))
