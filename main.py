@@ -59,7 +59,7 @@ class Category:
 
     def add_product(self, value):
         if not isinstance(value, Product):
-            raise ValueError(f"Складывать можно только объекты класса 'Product' и дочерние от них.")
+            raise ValueError
         self.product_count += 1
         return self.__products.append(value)
 
