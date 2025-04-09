@@ -86,6 +86,7 @@ def test_class_init_category(category_tv: Category, product1: Product) -> None:
         category_tv.description
         == "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником"
     )
+
     assert category_tv.products == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
     assert category_tv.category_count == ["Телевизоры"]
     assert category_tv.product_count == 1
@@ -138,6 +139,7 @@ def test_new_product(cls_new_product: dict):
     assert new_product_test.quantity == 5
 
 
+
 def test_add_product(category_smartphones2, product_grass1, product_smartphone2):
     """Тест на правильность добавления продукта в категорию"""
     category_smartphones2.add_product(product_smartphone2)
@@ -151,3 +153,17 @@ def test_add_prod(product_smartphone1, product_smartphone2, product_grass1):
 
     with pytest.raises(TypeError):
         product_smartphone1 + product_grass1
+        
+        
+def test_for_class_product__str__(product_1):
+    assert str(product_1) == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+
+
+def test_for_class_product__add__(product_1, product_2):
+    add_prod = product_1 + product_2
+    assert add_prod == 2580000.0
+
+
+def test_for_class_category__str__(category_1):
+    assert str(category_1) == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+

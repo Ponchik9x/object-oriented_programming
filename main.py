@@ -11,9 +11,14 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self):
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
     def __add__(self, other):
         if type(self) == type(other):
-            return self.quantity + other.quantity
+            cost_of_products_1 = self.quantity * self.__price
+            cost_of_products_2 = other.quantity * other.__price
+            return cost_of_products_1 + cost_of_products_2
         else:
             raise TypeError("разные типы продуктов")
 
@@ -49,20 +54,30 @@ class Category:
     product_count = 0
 
     def __init__(self, name: str, description: str, products: list):
-        """"""
+        """ """
         self.name = name
         self.description = description
         self.__products = products
 
         self.category_count += [name]
-        self.product_count += len(products)
+        for v in products:
+            self.product_count += 1
+
+    def __str__(self):
+        result = []
+        for i in self.__products:
+            result.append(f"{i.name}, {i.price} руб. Остаток: {i.quantity} шт.")
+        return "\n".join(result)
+
 
     def add_product(self, value):
         if not isinstance(value, Product):
             raise ValueError
-        self.product_count += 1
-        return self.__products.append(value)
-
+        else:
+            self.product_count += 1
+            return self.__products.append(value)
+  
+  
     @property
     def products(self):
         return self.__products
@@ -73,10 +88,10 @@ class Category:
 
     @products.getter
     def products(self):
-        result = []
+        total_number = 0
         for i in self.__products:
-            result.append(f"{i.name}, {i.price} руб. Остаток: {i.quantity} шт.")
-        return "\n".join(result)
+            total_number += i.quantity
+        return f"{self.name}, количество продуктов: {total_number} шт."
 
 
 class Smartphone(Product):
@@ -129,10 +144,13 @@ class LawnGrass(Product):
 
 
 if __name__ == "__main__":
+  
     # ___ проверка задания 14,1
+
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+
 
     print(product1.name)
     print(product1.description)
@@ -148,6 +166,11 @@ if __name__ == "__main__":
     print(product3.description)
     print(product3.price)
     print(product3.quantity)
+
+    print(str(product1))
+    print(str(product2))
+    print(str(product3))
+
 
     category1 = Category(
         "Смартфоны",
@@ -187,9 +210,12 @@ if __name__ == "__main__":
         [product1, product2, product3],
     )
 
+    print(str(category1))
+
     print(category1.products)
+
     product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
-    # category1.add_product(product4)
+    category1.add_product(product4)
     print(category1.products)
     print(category1.product_count)
 
@@ -319,6 +345,8 @@ if __name__ == "__main__":
     else:
         print("Не возникла ошибка TypeError при добавлении не продукта")
 
-    print("-----")
-    category_smartphones.add_product(grass1)
-    print(category_smartphones.products)
+
+    print(product1 + product2)
+    print(product1 + product3)
+    print(product2 + product3)
+
