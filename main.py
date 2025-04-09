@@ -58,12 +58,10 @@ class Category:
         self.product_count += len(products)
 
     def add_product(self, value):
-        if type(value) is not str:
-            if isinstance(value, Category):
-                self.__products.append(value)
-                self.product_count += 1
-        else:
-            raise TypeError
+        if not isinstance(value, Product):
+            raise ValueError(f"Складывать можно только объекты класса 'Product' и дочерние от них.")
+        self.product_count += 1
+        return self.__products.append(value)
 
     @property
     def products(self):
@@ -191,7 +189,7 @@ if __name__ == "__main__":
 
     print(category1.products)
     product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
-    category1.add_product(product4)
+    # category1.add_product(product4)
     print(category1.products)
     print(category1.product_count)
 

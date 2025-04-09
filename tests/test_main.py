@@ -138,13 +138,10 @@ def test_new_product(cls_new_product: dict):
     assert new_product_test.quantity == 5
 
 
-def test_add_product(category_smartphones2, product1, product_smartphone2):
+def test_add_product(category_smartphones2, product_grass1, product_smartphone2):
     """Тест на правильность добавления продукта в категорию"""
-
-    assert category_smartphones2.add_product(product1) is None
-
     category_smartphones2.add_product(product_smartphone2)
-    assert category_smartphones2.products == "Iphone 15, 210000.0 руб. Остаток: 8 шт."
+    assert category_smartphones2.products == 'Iphone 15, 210000.0 руб. Остаток: 8 шт.\nSamsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.'
 
 
 def test_add_prod(product_smartphone1, product_smartphone2, product_grass1):
