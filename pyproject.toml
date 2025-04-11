@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ooprogramming"
+name = "object-oriented-programming"
 version = "0.1.0"
 description = ""
 authors = ["Petr <petrobatakshov@yandex.ru>"]
@@ -8,12 +8,12 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 pytest = "^8.3.5"
-pytest-cov = "^6.0.0"
+pytest-cov = "^6.1.1"
 
 
 [tool.poetry.group.lint.dependencies]
 black = "^25.1.0"
-flake8 = "^7.1.2"
+flake8 = "^7.2.0"
 isort = "^6.0.1"
 mypy = "^1.15.0"
 
@@ -44,3 +44,4 @@ line_length = 119
 disallow_untyped_defs = true
 warn_return_any = true
 exclude = 'venv'
+

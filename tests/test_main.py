@@ -1,25 +1,47 @@
 import pytest
 
-from main import Category, Product
+from main import Category, Product, Smartphone, LawnGrass
 
 
 @pytest.fixture
-def product_1() -> Product:
+def product1() -> Product:
     return Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
 
 
 @pytest.fixture
-def product_2() -> Product:
-    return Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
-
-
-@pytest.fixture
-def category_1(product_1: Product) -> Category:
+def category_tv(product1: Product) -> Category:
     return Category(
         "Телевизоры",
         "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
-        [product_1],
+        [product1],
     )
+
+
+@pytest.fixture
+def product_smartphone1():
+    return Smartphone("Iphone 15", "512GB, Gray space", 210000.0, 8, 98.2, "15", 512, "Gray space")
+
+
+@pytest.fixture
+def product_smartphone2():
+    return Smartphone(
+        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, 95.5, "S23 Ultra", 256, "Серый"
+    )
+
+
+@pytest.fixture
+def product_grass1():
+    return LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
+
+
+@pytest.fixture
+def product_tv():
+    return Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
+
+
+@pytest.fixture
+def category_smartphones2(product_smartphone1):
+    return Category("Смартфоны", "Высокотехнологичные смартфоны", [product_smartphone1])
 
 
 @pytest.fixture
@@ -49,24 +71,25 @@ def cls_new_product():
     }
 
 
-def test_class_init_product(product_1: Product) -> None:
+def test_class_init_product(product1: Product) -> None:
     """тест на правильность работы инициализации класса"""
-    assert product_1.name == "Samsung Galaxy S23 Ultra"
-    assert product_1.description == "256GB, Серый цвет, 200MP камера"
-    assert product_1.price == 180000.0
-    assert product_1.quantity == 5
+    assert product1.name == "Samsung Galaxy S23 Ultra"
+    assert product1.description == "256GB, Серый цвет, 200MP камера"
+    assert product1.price == 180000.0
+    assert product1.quantity == 5
 
 
-def test_class_init_category(category_1: Category, product_1: Product) -> None:
+def test_class_init_category(category_tv: Category, product1: Product) -> None:
     """тест на правильность работы инициализации класса"""
-    assert category_1.name == "Телевизоры"
+    assert category_tv.name == "Телевизоры"
     assert (
-        category_1.description
+        category_tv.description
         == "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником"
     )
-    assert category_1.products == "Телевизоры, количество продуктов: 5 шт."
-    assert category_1.category_count == ["Телевизоры"]
-    assert category_1.product_count == 1
+
+    assert category_tv.products == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+    assert category_tv.category_count == ["Телевизоры"]
+    assert category_tv.product_count == 1
 
 
 def test_price(new_product: Product):
@@ -116,6 +139,22 @@ def test_new_product(cls_new_product: dict):
     assert new_product_test.quantity == 5
 
 
+
+def test_add_product(category_smartphones2, product_grass1, product_smartphone2):
+    """Тест на правильность добавления продукта в категорию"""
+    category_smartphones2.add_product(product_smartphone2)
+    assert category_smartphones2.products == 'Iphone 15, 210000.0 руб. Остаток: 8 шт.\nSamsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.'
+
+
+def test_add_prod(product_smartphone1, product_smartphone2, product_grass1):
+    """Тест на правильность работы функции сложения двух продуктов"""
+    valid_sum = product_smartphone1 + product_smartphone2
+    assert valid_sum == 13
+
+    with pytest.raises(TypeError):
+        product_smartphone1 + product_grass1
+        
+        
 def test_for_class_product__str__(product_1):
     assert str(product_1) == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
 
@@ -127,3 +166,4 @@ def test_for_class_product__add__(product_1, product_2):
 
 def test_for_class_category__str__(category_1):
     assert str(category_1) == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+
