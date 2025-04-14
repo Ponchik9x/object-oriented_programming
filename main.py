@@ -13,6 +13,8 @@ class Product(BaseProduct, PrintMixin):
         self.description = description
         self.__price = price
         self.quantity = quantity
+        if self.quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         super().__init__()
 
     def __str__(self):
@@ -60,6 +62,9 @@ class Category:
     def __init__(self, name: str, description: str, products: list):
         self.name = name
         self.description = description
+        # if len(products) == 0:
+        #     raise ValueError("В категории нет продуктов")
+        # else:
         self.__products = products
 
         self.category_count += [name]
@@ -94,6 +99,16 @@ class Category:
         for i in self.__products:
             total_number += i.quantity
         return f"{self.name}, количество продуктов: {total_number} шт."
+
+    def middle_price(self):
+        """функция подсчета среднего значения"""
+
+        try:
+            sum_of_prod = sum(prod.price for prod in self.__products)
+            return round(sum_of_prod / len(self.__products), 3)
+
+        except ZeroDivisionError:
+            return 0
 
 
 class Smartphone(Product):
@@ -396,3 +411,27 @@ if __name__ == "__main__":
 
     print(Category.category_count)
     print(Category.product_count)
+
+    # ------ проверка задания 17.1
+    print("___________")
+
+    try:
+        product_invalid = Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+    except ValueError:
+        print(
+            "Возникла ошибка ValueError прерывающая работу программы "
+            "при попытке добавить продукт с нулевым количеством"
+        )
+    else:
+        print("Не возникла ошибка ValueError при попытке добавить продукт с нулевым количеством")
+
+    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+
+    category1 = Category("Смартфоны", "Категория смартфонов", [product1, product2, product3])
+
+    print(category1.middle_price())
+
+    category_empty = Category("Пустая категория", "Категория без продуктов", [])
+    print(category_empty.middle_price())

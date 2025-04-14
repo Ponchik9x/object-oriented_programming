@@ -204,3 +204,22 @@ def test_class_lawngrass():
     assert grass2.country == "США"
     assert grass2.germination_period == "5 дней"
     assert grass2.color == "Темно-зеленый"
+
+
+def test_init_new_product_invalid():
+    """Тест на ошибку ValueError при попытке добавить продукт с нулевым количеством"""
+    with pytest.raises(ValueError):
+        Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+
+
+def test_middle_price_valid(product_smartphone1, product_smartphone2):
+    """Тест на положительный ответ метода вычисления средней стоимости товаров в категории (метод: middle_price)"""
+    category1 = Category("Смартфоны", "Категория смартфонов", [product_smartphone1, product_smartphone2])
+    assert category1.middle_price()
+
+
+def test_middle_price_invalid():
+    """Тест на возбуждение ошибки метода middle_price"""
+    category_empty = Category("Пустая категория", "Категория без продуктов", [])
+    sum_prod = category_empty.middle_price()
+    assert sum_prod == 0
